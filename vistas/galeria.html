@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Galería</title>
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Galería de Cuadros</h1>
+    <div class="gallery-grid" id="galleryContainer">        
+    </div>
+    <div class="container2">
+        <button onclick="changePage(-1)" id="prevPageButton" disabled>Anterior</button>
+        <button onclick="changePage(1)" id="nextPageButton">Siguiente</button>
+    </div>
+
+    <script>
+        const totalImages = 16; 
+        const imagesPerPage = 8; 
+        let currentPage = 1; 
+
+        function loadImages(page) {
+            const galleryContainer = document.getElementById('galleryContainer');
+            galleryContainer.innerHTML = ''; 
+            const startIndex = (page - 1) * imagesPerPage;
+            const endIndex = Math.min(startIndex + imagesPerPage, totalImages);
+
+            for (let i = startIndex + 1; i <= endIndex; i++) {
+                const imgElement = document.createElement('div');
+                imgElement.innerHTML = `
+                    <img src="/images/Codigo${String(i).padStart(2, '0')}.jpg" alt="Cuadro ${i}" style="width: 100%;">
+                    <button onclick="selectImage('/images/Codigo${String(i).padStart(2, '0')}.jpg')">Pedir</button>
+                `;
+                galleryContainer.appendChild(imgElement);
+            }
+            
+            document.getElementById('prevPageButton').disabled = (currentPage === 1);
+            document.getElementById('nextPageButton').disabled = (currentPage * imagesPerPage >= totalImages);
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            loadImages(currentPage);
+        }
+
+        function selectImage(imageUrl) {
+            localStorage.setItem("selectedImage", imageUrl);
+            window.location.href = '/pedido';
+        }
+
+        loadImages(currentPage);
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Iniciar Sesión</h1>
+    <form id="loginForm">
+        <div class="tarjeta">
+            <label>Usuario: <input type="text" required name="username"></label><br>
+            <label>Contraseña: <input type="password" required name="password"></label><br>
+            <button type="submit">Iniciar Sesión</button>
+        </div>
+    </form>
+    <div class="error" id="message"></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            const messageDiv = document.getElementById('message');
+
+            if (response.ok) {                
+                localStorage.setItem('token', result.token);
+                window.location.href = '/inicio';
+            } else {
+                messageDiv.textContent = 'Error: ' + result.message;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario</title>
+</head>
+<body>
+    <h1>Registro de Usuario</h1>
+    <form id="registerForm">
+        <label>Nombre: <input type="text" required name="name"></label><br>
+        <label>Apellido: <input type="text" required name="surname"></label><br>
+        <label>DNI: <input type="text" required name="dni"></label><br>
+        <label>Correo: <input type="email" required name="email"></label><br>
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            const messageDiv = document.getElementById('message');
+
+            if (response.ok) {
+                messageDiv.textContent = 'Usuario registrado exitosamente.';
+            } else {
+                messageDiv.textContent = 'Error: ' + result.message;
+            }
+        });
+    </script>
+</body>
+</html>

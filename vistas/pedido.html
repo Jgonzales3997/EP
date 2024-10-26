@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Pedido</title>
+</head>
+<body>
+    <h1>Realizar Pedido</h1>
+    <div class="container">
+        <div class="card">
+            <form id="orderForm">
+                <label>Nombre: <input type="text" required name="nombre"></label><br>
+                <label>Apellido: <input type="text" required name="apellido"></label><br>
+                <label>DNI: <input type="text" required name="dni"></label><br>
+                <label>Dirección: <input type="text" required name="direccion"></label><br>
+                <label>Tamaño:
+                    <select name="tamaño" required>
+                        <option value="20x20cm">20x20cm</option>
+                        <option value="50x50cm">50x50cm</option>
+                        <option value="100x100cm">100x100cm</option>
+                        <option value="tamaño real">Tamaño real</option>
+                    </select>
+                </label><br>
+                <button type="submit">Enviar Datos</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>Imagen seleccionada</h2>
+            <img id="selectedImage" src="" alt="Imagen seleccionada">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const img = localStorage.getItem("selectedImage");
+            document.getElementById("selectedImage").src = img;
+        });
+
+        document.getElementById("orderForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Su pedido llegará en 2 a 3 días hábiles, si no hay paro D:"); // Aquí cambiamos el texto
+            
+        });
+    </script>
+</body>
+</html>
